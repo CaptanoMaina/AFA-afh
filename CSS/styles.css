@@ -59,6 +59,7 @@ a {
 #gallery,
 #admissions,
 #testimonials,
+#faq,
 #contact,
 footer {
     width: 100%;
@@ -180,6 +181,10 @@ header {
 }
 
 .number-top:hover {
+    color: var(--main-pink);
+}
+
+.footerHomeBlock a:hover .number-bottom {
     color: var(--main-pink);
 }
 
@@ -362,6 +367,7 @@ header {
     border-radius: 5px;
     height: 200px;
     object-fit: cover;
+    object-position: center;
 }
 
 .serviceItem h3,
@@ -437,6 +443,16 @@ header {
     align-items: center;
 }
 
+.gallerySection {
+    margin-top: 1.4rem;
+}
+
+.galleryTitle {
+    color: #d2f3f7;
+    font-size: 24px;
+    margin-bottom: .4rem;
+}
+
 .wrapper {
     display: flex;
     align-items: center;
@@ -457,6 +473,7 @@ header {
     border-radius: 50%;
     transform: translateY(-50%);
     transition: all 0.3s linear;
+    z-index: 2;
 }
 
 .wrapper i:active {
@@ -467,13 +484,13 @@ header {
     background: #f2f2f2;
 }
 
-.wrapper i:first-child {
-    left: -22px;
+.wrapper i.gallery-arrow-left {
+    left: 10px;
     display: none;
 }
 
-.wrapper i:last-child {
-    right: -22px;
+.wrapper i.gallery-arrow-right {
+    right: 10px;
 }
 
 .wrapper .gallery-carousel {
@@ -500,6 +517,10 @@ header {
     margin-left: 10px;
     width: calc(100% / 3);
     border-radius: 7px;
+}
+
+.gallery-carousel img.home-two-hero {
+    filter: brightness(1.22) contrast(1.14) saturate(1.35) hue-rotate(10deg);
 }
 
 .gallery-carousel img:first-child {
@@ -563,6 +584,43 @@ header {
     background: linear-gradient(180deg, #303642 0%, #2a303c 100%);
 }
 
+#faq {
+    background-color: var(--white-bg);
+}
+
+.faqAccordionWrap {
+    margin-top: 1.5rem;
+}
+
+#faq .accordion-item {
+    border: 1px solid #d7e7ea;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: .7rem;
+    background: var(--light-bg);
+}
+
+#faq .accordion-button {
+    font-weight: 600;
+    color: var(--dark-grey);
+    background: #eef5f7;
+    box-shadow: none;
+}
+
+#faq .accordion-button:not(.collapsed) {
+    color: var(--dark-grey);
+    background: #e2eef1;
+}
+
+#faq .accordion-body {
+    color: var(--dark-grey);
+    line-height: 1.6;
+}
+
+#faq + #contact {
+    border-top: none;
+}
+
 .testimonialGrid {
     margin-top: 1.2rem;
     display: grid;
@@ -587,11 +645,17 @@ header {
     padding-bottom: .7rem;
 }
 
-.contactHomes {
+.contactLocationGrid {
     margin-top: 1.4rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+}
+
+.locationBlock {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
 }
 
 .locationCard {
@@ -605,17 +669,16 @@ header {
     margin-bottom: .7rem;
 }
 
-.mapGrid {
-    margin-top: 1.2rem;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-}
-
 .map {
     border: none;
     outline: none;
     width: 100%;
+}
+
+.map iframe {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    min-height: 320px;
 }
 
 .map iframe,
@@ -685,6 +748,17 @@ footer {
 .footerHomeBlock h3,
 .footerHomeBlock h6 {
     color: var(--white-bg);
+}
+
+.email-link {
+    color: inherit;
+    text-shadow: none;
+}
+
+.email-link:hover,
+.email-link:hover h6 {
+    color: var(--main-pink);
+    text-shadow: none;
 }
 
 .email-address,
@@ -758,7 +832,7 @@ footer {
         display: none;
     }
 
-    .show {
+    .nav.show {
         width: 100%;
         display: block;
         position: absolute;
@@ -802,8 +876,7 @@ footer {
 
 @media screen and (max-width: 992px) {
     .homesGrid,
-    .contactHomes,
-    .mapGrid,
+    .contactLocationGrid,
     .footerHomes,
     .quickStats {
         grid-template-columns: 1fr;
@@ -874,11 +947,15 @@ footer {
         line-height: 40px;
     }
 
-    .wrapper i:first-child {
-        left: -10px;
+    .wrapper i.gallery-arrow-left {
+        left: 8px;
     }
 
-    .wrapper i:last-child {
-        right: -10px;
+    .wrapper i.gallery-arrow-right {
+        right: 8px;
+    }
+
+    .map iframe {
+        min-height: 280px;
     }
 }

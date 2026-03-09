@@ -33,28 +33,35 @@ if (typeof ScrollReveal !== 'undefined') {
     revealLeft.forEach((selector) => scrollReveal.reveal(selector, { origin: 'left' }));
 }
 
-const carousel = document.querySelector('.gallery-carousel');
-const firstImg = carousel ? carousel.querySelectorAll('img')[0] : null;
-const arrowIcons = document.querySelectorAll('.wrapper i');
+const galleryWrappers = document.querySelectorAll('.wrapper');
 
-let isDragStart = false;
-let isDragging = false;
-let prevPageX;
-let prevScrollLeft;
-let positionDiff;
+galleryWrappers.forEach((wrapper) => {
+    const carousel = wrapper.querySelector('.gallery-carousel');
+    const firstImg = carousel ? carousel.querySelector('img') : null;
+    const leftArrow = wrapper.querySelector('.gallery-arrow-left');
+    const rightArrow = wrapper.querySelector('.gallery-arrow-right');
 
-const showHideIcons = () => {
-    if (!carousel || arrowIcons.length < 2) return;
-    const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
-    arrowIcons[0].style.display = carousel.scrollLeft <= 0 ? 'none' : 'block';
-    arrowIcons[1].style.display = carousel.scrollLeft >= scrollWidth ? 'none' : 'block';
-};
+    if (!carousel || !firstImg || !leftArrow || !rightArrow) return;
 
-if (carousel && firstImg && arrowIcons.length >= 2) {
-    arrowIcons.forEach((icon) => {
+    let isDragStart = false;
+    let isDragging = false;
+    let prevPageX = 0;
+    let prevScrollLeft = 0;
+    let positionDiff = 0;
+
+    const showHideIcons = () => {
+        const scrollWidth = carousel.scrollWidth - carousel.clientWidth;
+        // Prevent flicker/partial arrow state caused by sub-pixel scroll positions.
+        const atStart = carousel.scrollLeft <= 2;
+        const atEnd = carousel.scrollLeft >= scrollWidth - 2;
+        leftArrow.style.display = atStart ? 'none' : 'block';
+        rightArrow.style.display = atEnd ? 'none' : 'block';
+    };
+
+    [leftArrow, rightArrow].forEach((icon) => {
         icon.addEventListener('click', () => {
             const firstImgWidth = firstImg.clientWidth + 14;
-            carousel.scrollLeft += icon.id === 'left' ? -firstImgWidth : firstImgWidth;
+            carousel.scrollLeft += icon.classList.contains('gallery-arrow-left') ? -firstImgWidth : firstImgWidth;
             setTimeout(showHideIcons, 60);
         });
     });
@@ -105,6 +112,7 @@ if (carousel && firstImg && arrowIcons.length >= 2) {
     carousel.addEventListener('touchmove', dragging);
     document.addEventListener('mouseup', dragStop);
     carousel.addEventListener('touchend', dragStop);
+    carousel.addEventListener('scroll', showHideIcons);
 
     showHideIcons();
-}
+});
